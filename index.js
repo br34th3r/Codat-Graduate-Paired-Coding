@@ -12,13 +12,17 @@ Validator.prototype.customFormats.notEmptyString = function(input) {
     return input.length;
 }
 
+Validator.prototype.customFormats.notNaN = function(input) {
+    return input != NaN;
+}
+
 const invoice_schema = {
     "id": "/Invoice",
     "type": "object",
     "properties": {
         "invoiceNumber": {"type": "string", "format": "notEmptyString"},
         "customerName": {"type": "string", "format": "notEmptyString"},
-        "amount": {"type": "number"},
+        "amount": {"type": "number", "format": "notNaN"},
         "payments": {
             "type": "array",
             "items": {"$ref": "/Payment"}
@@ -32,7 +36,7 @@ const payment_schema = {
     "type": "object",
     "properties": {
         "paymentNumber": {"type": "string", "format": "notEmptyString"},
-        "amount": {"type": "number"}
+        "amount": {"type": "number", "format": "notNaN"}
     },
     "required": ["paymentNumber", "amount"]
 }
